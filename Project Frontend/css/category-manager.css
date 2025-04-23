@@ -1,0 +1,74 @@
+.container {
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+}
+
+.headerLogo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 30px;
+    padding: 20px;
+}
+
+.headerSearch {
+    margin: auto;
+}
+
+.headerSearch input {
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.headerNavbar {
+    padding: 20px;
+    gap: 10px;
+}
+
+.headerNavbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.containerCategoryManager{
+      margin-left: 400px;
+}
+.categoryManager button {
+    background-color: blue;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.categoryManager button#addCategory:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333333;
+    color: white;
+    padding: 5px;
+    text-align: center;
+}
+#tableCategory {
+    border-collapse: collapse;
+}
+#tableCategory thead {
+    background-color: black; 
+    color: white;
+}

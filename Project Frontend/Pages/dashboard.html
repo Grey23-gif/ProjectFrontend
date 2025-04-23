@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="headerLogo">QuizzForge</div>
+            <div class="headerSearch">
+                <input id="searchTest" name="searchTest" placeholder="Tìm kiếm bài test">
+            </div>
+            <div class="headerNavbar">
+                <a href="category-manager.html">Danh mục</a>
+                <a href="dashboard.html">Trang chủ</a>
+                <a href="login.html">Đăng xuất</a>
+            </div>
+        </div>
+        <div class="randomQuizz">
+            <p>Hãy thử 1 câu đố ngẫu nhiên</p>
+            <button id="playGame">Play</button>
+        </div>
+        <div class="quizzSection">
+            <p>Các câu đố nổi bật</p>
+            <div class="quizSectionFilter">
+                <span>Sắp xếp theo:</span>
+                <button class="filterButton">Lượt chơi tăng dần</button>
+                <button class="filterButton">Lượt chơi giảm dần</button>
+                <table id="quizzShow">
+                    <tbody>
+
+                    </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© 2025 QuizzForge. All rights reserved.</p>
+    </footer>
+</body>
+</html>
