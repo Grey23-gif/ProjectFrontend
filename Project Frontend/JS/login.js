@@ -39,7 +39,7 @@ function loginAccount() {
         return;
     }
 
-    window.location.href = "../admin/about.html";
+    window.location.href = "../Pages/dashboard.html";
 }
 
 loginButton.addEventListener("click", (e) => {

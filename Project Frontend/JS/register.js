@@ -1,13 +1,16 @@
+const nameRegister = document.getElementById("nameRegister");
 const emailRegister = document.getElementById("emailRegister");
 const passwordRegister = document.getElementById("passwordRegister");
 const confirmPasswordRegister = document.getElementById("confirmPassword");
 const registerButton = document.getElementById("btnRegister");
 
+const nameGroup = document.getElementById("nameGroup");
 const emailGroup = document.getElementById("emailGroup");
 const passwordGroup = document.getElementById("passwordGroup");
 const confirmGroup = document.getElementById("confirmGroup");
 
 function registerAccount() {
+    const nameUser = nameRegister.value.trim();
     const email = emailRegister.value.trim();
     const password = passwordRegister.value.trim();
     const confirmPassword = confirmPasswordRegister.value.trim();
@@ -15,7 +18,10 @@ function registerAccount() {
     clearErrors(); // Xóa lỗi cũ
 
     let hasError = false;
-
+    if(!nameUser) {
+        showError(nameGroup, "Vui lòng nhập họ và tên.");
+        hasError = true;
+    }
     if (!email) {
         showError(emailGroup, "Vui lòng nhập email.");
         hasError = true;
