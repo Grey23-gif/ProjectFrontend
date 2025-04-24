@@ -3,13 +3,16 @@
     justify-content: space-between;
     background-color: black;
     color: white;
+    width: 100%;
 }
+
 .headerLogo {
     font-size: 24px;
     font-weight: bold;
     margin-left: 30px;
     padding: 20px;
 }
+
 .headerNavbar {
     padding: 20px;
     gap: 10px;
@@ -23,20 +26,13 @@
     margin-right: 5px;
 }
 
-.headerNavbar a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    margin-right: 5px;
-}
-.containerCategoryManager {
+.containerProductManager {
     padding: 100px;
     margin-left: 100px;
     margin-right: 100px;
 }
 
-.categoryManager button#addCategory {
+.ProductManager button#addProduct {
     background-color: blue;
     border: none;
     color: white;
@@ -46,7 +42,7 @@
     margin-bottom: 20px;
 }
 
-.categoryManager button#addCategory:hover {
+.ProductManager button#addProduct:hover {
     background-color: #0056b3;
 }
 
@@ -61,47 +57,40 @@
     text-align: center;
 }
 
-#tableCategory {
+#tableProduct {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-#tableCategory th, #tableCategory td {
+#tableProduct th, #tableProduct td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-#tableCategory th {
+#tableProduct th {
     background-color: #333;
     color: white;
     font-weight: bold;
 }
 
-#tableCategory tr:nth-child(even) {
+#tableProduct tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-#tableCategory tr:hover {
+#tableProduct tr:hover {
     background-color: #f1f1f1;
 }
 
-#tableCategory td:nth-child(1) {
-    text-align: center ;
-    width: 100px;
-}
-#tableCategory th:nth-child(1) {
+#tableProduct td:nth-child(1),
+#tableProduct th:nth-child(1),
+#tableProduct td:nth-child(6),
+#tableProduct th:nth-child(6) {
     text-align: center;
-}
-#tableCategory td:nth-child(3) {
     width: 200px;
-    text-align: center ;
-    gap: 5px;
 }
-#tableCategory th:nth-child(3) {
-    text-align: center;
-}
+
 button.edit, button.delete {
     padding: 5px 10px;
     margin-right: 5px;
@@ -119,17 +108,4 @@ button.edit {
 button.delete {
     background-color: #ff0000;
     color: white;
-}
-
-.modal-body input {
-    width: 100%;
-    height: 50px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.error-message {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
 }

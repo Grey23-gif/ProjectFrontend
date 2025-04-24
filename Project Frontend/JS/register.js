@@ -62,7 +62,7 @@ function registerAccount() {
         return;
     }
 
-    const newUser = { email, password };
+    const newUser = {nameUser ,email, password };
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
