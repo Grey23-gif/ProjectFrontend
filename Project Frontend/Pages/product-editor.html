@@ -4,71 +4,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/category-manager.css">
+    <link rel="stylesheet" href="../css/product-manager.css">
     <link rel="stylesheet" href="../css/base.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Quản lý bài test</title>
 </head>
 
 <body>
     <div class="header">
         <div class="headerLogo">QuizzForge</div>
         <div class="headerNavbar">
-            <a href="product-manager.html">Bài test</a>
+            <a href="category-manager.html">Danh mục</a>
             <a href="dashboard.html">Trang chủ</a>
             <a href="login.html">Đăng xuất</a>
         </div>
     </div>
-    <div class="containerCategoryManager">
-        <div class="categoryManager">
-            <h2>Quản lí danh mục</h2>
-            <button id="addCategory" name="addCategory">Thêm danh mục</button>
-            <table id="tableCategory">
+
+    <div class="containerProductManager">
+        <div class="ProductManager">
+            <h2>Tạo bài test</h2>
+            <div class="funtion-bar">
+                <div>
+                    <button id="addProduct" class="btn btn-success mb-3">Thêm bài test</button>
+                </div>
+                <div>
+                    <select id="sortProduct">
+                        <option>Sắp xếp theo tên</option>
+                        <option>Sắp xếp theo danh mục</option>
+                    </select>
+                    <input id="searchProductByName" name="searchProductByName" placeholder="Tìm kiếm theo tên">
+                </div>
+            </div>
+
+            <table id="tableProduct" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên danh mục</th>
+                        <th>Tên bài test</th>
+                        <th>Danh mục</th>
+                        <th>Câu hỏi</th>
+                        <th>Thời gian</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
-                <tbody id="categoriesList">
-                    <!-- Rows will be dynamically added here -->
+                <tbody id="productsList">
+
                 </tbody>
             </table>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>© 2025 QuizzForge. All rights reserved.</p>
-    </footer>
-
-    <div class="modal" tabindex="-1">
+    <div class="modal fade" id="modalProduct" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thêm/Sửa danh mục</h5>
+                    <h5 class="modal-title">Thêm/Sửa bài test</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="">
-                        <label>Tên danh mục</label><br>
-                        <input id="nameCategory" name="nameCategory" type="text">
+                    <div class="mb-2">
+                        <label for="nameProduct">Tên bài test</label>
+                        <input id="nameProduct" type="text" class="form-control">
                     </div>
-                    <div>
-                        <label>Emoji</label><br>
-                        <input id="emojiCategory" name="emojiCategory" type="text">
+                    <div class="mb-2">
+                        <label for="categoryProduct">Danh mục</label><br>
+                        <select id="categoriesList">
+
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="questionProduct">Số câu hỏi</label>
+                        <input id="questionProduct" type="number" min="1" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label for="timeProduct">Thời gian (phút)</label>
+                        <input id="timeProduct" type="number" min="1" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id = "saveBtn">Lưu</button>
+                    <button type="button" class="btn btn-primary" id="saveBtn">Lưu</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" tabindex="-1" id="modalConfirm">
+    <div class="modal" tabindex="-1" id="modalConfirmProduct">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -85,10 +107,15 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>© 2025 QuizzForge. All rights reserved.</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
-    <script src="../JS/category-manager.js"></script>
+    <script src="../JS/product-manager.js"></script>
 </body>
 
 </html>

@@ -1,84 +1,154 @@
-// Lấy dữ liệu từ localStorage hoặc khởi tạo mảng rỗng
-const productList = JSON.parse(localStorage.getItem("products")) || [];
+let currentAction = "";
+let currentEditingId = null;
+let deleteId = null;
 
-// Lấy các phần tử DOM cần thiết
-const addProduct = document.querySelector("#addProduct");
-const saveProductBtn = document.querySelector(".btn.btn-primary");
+const productList = JSON.parse(localStorage.getItem("products")) || [];
+const categoryList = JSON.parse(localStorage.getItem("categories")) || [];
+
+const addProductBtn = document.querySelector("#addProduct");
+const saveProductBtn = document.querySelector("#saveBtn");
 const nameProduct = document.querySelector("#nameProduct");
-const categoryProduct = document.querySelector("#categoryProduct");
+const categoryProduct = document.querySelector("#categoriesList");
 const questionProduct = document.querySelector("#questionProduct");
 const timeProduct = document.querySelector("#timeProduct");
-const productsList = document.querySelector("#tableProduct tbody");
+const productsList = document.querySelector("#productsList");
+
 const modalElement = document.querySelector(".modal");
-const modal = new bootstrap.Modal(modalElement);
+const modal = modalElement ? new bootstrap.Modal(modalElement) : null;
 
-// Khi bấm nút "Thêm bài test"
-addProduct.addEventListener("click", () => {
-    modal.show();
-});
+const modalConfirmElement = document.querySelector("#modalConfirmProduct");
+const modalConfirm = modalConfirmElement ? new bootstrap.Modal(modalConfirmElement) : null;
 
-// Khi bấm nút "Lưu"
-saveProductBtn.addEventListener("click", () => {
-    if (
-        !validateInput(nameProduct, "Vui lòng nhập tên bài test") ||
-        !validateInput(categoryProduct, "Vui lòng nhập danh mục") ||
-        !validateInput(questionProduct, "Vui lòng nhập số câu hỏi") ||
-        !validateInput(timeProduct, "Vui lòng nhập thời gian")
-    ) return;
+const confirmMessage = document.querySelector(".confirm-message");
+const confirmBtn = document.querySelector("#confirmBtn");
 
-    const newId = productList.length > 0 ? Math.max(...productList.map(p => p.id)) + 1 : 1;
+// Hiển thị danh mục trong dropdown
+function populateCategoryDropdown() {
+    categoryProduct.innerHTML = '<option value="">Chọn danh mục</option>';
+    categoryList.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = `${category.emoji} ${category.name}`;
+        categoryProduct.appendChild(option);
+    });
+}
 
-    const newProduct = {
-        id: newId,
-        name: nameProduct.value,
-        category: categoryProduct.value,
-        questionCount: questionProduct.value,
-        time: timeProduct.value
-    };
+// Hiển thị modal thêm sản phẩm
+if (addProductBtn) {
+    addProductBtn.addEventListener("click", () => {
+        currentAction = "add";
+        currentEditingId = null;
+        nameProduct.value = "";
+        categoryProduct.value = "";
+        questionProduct.value = "";
+        timeProduct.value = "";
+        populateCategoryDropdown();
+        modal?.show();
+    });
+}
 
-    productList.push(newProduct);
-    localStorage.setItem("products", JSON.stringify(productList));
+// Lưu sản phẩm (thêm hoặc sửa)
+if (saveProductBtn) {
+    saveProductBtn.addEventListener("click", () => {
+        if (!validateInput(nameProduct, "Vui lòng nhập tên bài test") ||
+            !validateInput(categoryProduct, "Vui lòng chọn danh mục") ||
+            !validateInput(questionProduct, "Vui lòng nhập số câu hỏi") ||
+            !validateInput(timeProduct, "Vui lòng nhập thời gian (phút)")) {
+            return;
+        }
 
-    addProductRow(newProduct);
+        if (currentAction === "add") {
+            confirmMessage.textContent = `Bạn có chắc chắn muốn thêm bài test ${nameProduct.value} không?`;
+        } else if (currentAction === "edit") {
+            confirmMessage.textContent = `Bạn có chắc chắn muốn sửa bài test ${nameProduct.value} không?`;
+        }
 
-    nameProduct.value = "";
-    categoryProduct.value = "";
-    questionProduct.value = "";
-    timeProduct.value = "";
-    modal.hide();
-});
+        modal?.hide();
+        modalConfirm?.show();
+    });
+}
+
+// Xác nhận hành động (thêm, sửa, xóa)
+if (confirmBtn) {
+    confirmBtn.addEventListener("click", () => {
+        const selectedCategory = categoryList.find(category => category.id === parseInt(categoryProduct.value));
+
+        if (currentAction === "add") {
+            const newId = productList.length > 0 ? Math.max(...productList.map(p => p.id)) + 1 : 1;
+            const newProduct = {
+                id: newId,
+                name: nameProduct.value,
+                category: selectedCategory,
+                questions: questionProduct.value,
+                time: timeProduct.value,
+            };
+            productList.push(newProduct);
+        } else if (currentAction === "edit") {
+            const index = productList.findIndex(p => p.id === currentEditingId);
+            if (index !== -1) {
+                productList[index].name = nameProduct.value;
+                productList[index].category = selectedCategory;
+                productList[index].questions = questionProduct.value;
+                productList[index].time = timeProduct.value;
+            }
+        } else if (currentAction === "delete") {
+            const index = productList.findIndex(p => p.id === deleteId);
+            if (index !== -1) {
+                productList.splice(index, 1);
+            }
+        }
+
+        localStorage.setItem("products", JSON.stringify(productList));
+        renderProductList();
+
+        modalConfirm?.hide();
+        modal?.hide();
+        currentAction = "";
+    });
+}
 
 function addProductRow(product) {
     const newRow = document.createElement("tr");
+
     newRow.innerHTML = `
         <td>${product.id}</td>
         <td>${product.name}</td>
-        <td>${product.category}</td>
-        <td>${product.questionCount}</td>
+        <td>${product.category?.emoji || ""} ${product.category?.name || ""}</td>
+        <td>${product.questions}</td>
         <td>${product.time}</td>
         <td>
             <button class="edit">Sửa</button>
             <button class="delete">Xóa</button>
         </td>
     `;
+
     productsList.appendChild(newRow);
-    attachEventListenersToRow(newRow);
+    attachEventListenersToRow(newRow, product);
 }
 
-function attachEventListenersToRow(row) {
+function attachEventListenersToRow(row, product) {
     row.querySelector(".edit").addEventListener("click", () => {
-        // Xử lý sửa
+        currentAction = "edit";
+        currentEditingId = product.id;
+        nameProduct.value = product.name;
+        categoryProduct.value = product.category?.id || "";
+        questionProduct.value = product.questions;
+        timeProduct.value = product.time;
+        populateCategoryDropdown();
+        modal?.show();
     });
 
     row.querySelector(".delete").addEventListener("click", () => {
-        const id = parseInt(row.children[0].textContent);
-        const index = productList.findIndex(p => p.id === id);
-        if (index !== -1) {
-            productList.splice(index, 1);
-            localStorage.setItem("products", JSON.stringify(productList));
-            row.remove();
-        }
+        currentAction = "delete";
+        deleteId = product.id;
+        confirmMessage.textContent = `Bạn có chắc chắn muốn xóa bài test ${product.name} không?`;
+        modalConfirm?.show();
     });
+}
+
+function renderProductList() {
+    productsList.innerHTML = "";
+    productList.forEach(addProductRow);
 }
 
 function validateInput(input, message) {
@@ -96,7 +166,5 @@ function validateInput(input, message) {
     return true;
 }
 
-// Hiển thị sản phẩm có sẵn khi tải trang
-productList.forEach(product => {
-    addProductRow(product);
-});
+populateCategoryDropdown();
+renderProductList();

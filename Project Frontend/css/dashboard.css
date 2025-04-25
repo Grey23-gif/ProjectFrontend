@@ -9,6 +9,10 @@
     color: white;
 }
 
+.ProductManager h2 {
+    margin-bottom: 100px;
+}
+
 .headerLogo {
     font-size: 24px;
     font-weight: bold;
@@ -64,7 +68,7 @@
     text-align: center;
 }
 .quizSectionFilter button {
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 5px;
 }
 .footer {
