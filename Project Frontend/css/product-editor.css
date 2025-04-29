@@ -1,0 +1,162 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+
+.headerLogo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 30px;
+    padding: 20px;
+}
+.ProductManager h2 {
+    margin-bottom: 40px;
+}
+
+
+.headerNavbar {
+    padding: 20px;
+    gap: 10px;
+}
+
+.headerNavbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.containerProductManager {
+    padding: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.ProductManager button {
+    background-color: blue;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    width: 150px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.ProductManager input#nameProduct {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+}
+.selectionBar {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+.selectionBar input {
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+}
+.selectionBar select {
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+}
+.funtionBar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333333;
+    color: white;
+    padding: 5px;
+    text-align: center;
+}
+#tableQuestion th:nth-child(2) {
+    width: 500px;
+    text-align: center;
+}
+
+#modalQuestion button#addAnswer {
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #6C757D;
+    color: white;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group input {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+#deleteAnswer {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: red;
+    background-color: transparent; 
+    border: none;
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+.error-message {
+    display: block;
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+#tableQuestion {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#tableQuestion td:nth-child(2),
+#tableQuestion th:nth-child(2) {
+    width: 1200px;
+}
+
+#tableQuestion td:nth-child(1),
+#tableQuestion th:nth-child(1),
+#tableQuestion td:nth-child(3),
+#tableQuestion th:nth-child(3) {
+    text-align: center;
+}
+
+#tableQuestion th, #tableQuestion td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#tableQuestion th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+}
+
+#tableQuestion tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tableQuestion tr:hover {
+    background-color: #f1f1f1;
+}

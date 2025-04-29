@@ -42,8 +42,8 @@ function registerAccount() {
         hasError = true;
     }
 
-    if (password && password.length < 6) {
-        showError(passwordGroup, "Mật khẩu phải có ít nhất 6 ký tự.");
+    if (password && password.length < 8) {
+        showError(passwordGroup, "Mật khẩu phải có ít nhất 8 ký tự.");
         hasError = true;
     }
 
@@ -57,16 +57,23 @@ function registerAccount() {
     // Xử lý đăng ký
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if (users.some(user => user.email === email)) {
+    if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
         showError(emailGroup, "Email đã tồn tại.");
         return;
     }
 
-    const newUser = {nameUser ,email, password };
+    const newUser = {nameUser, email, password, role: "user"};
+    users.push({
+        nameUser: "Thanh Thanh",
+        email: "thanhthanh123@gmail.com",
+        password: "1234568",
+        role: "admin"
+    });
     users.push(newUser);
+    
     localStorage.setItem("users", JSON.stringify(users));
 
-    window.location.href = "login.html";
+    window.location.href = "login.html"; 
 }
 
 registerButton.addEventListener("click", (e) => {

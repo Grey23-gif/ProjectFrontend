@@ -2,8 +2,20 @@ const emailLogin = document.getElementById("emailLogin");
 const passwordLogin = document.getElementById("passwordLogin");
 const loginButton = document.getElementById("btnLogin");
 
-const emailGroupLogin = document.getElementById("emailGroupLogin"); 
+const emailGroupLogin = document.getElementById("emailGroupLogin");
 const passwordGroupLogin = document.getElementById("passwordGroupLogin");
+
+function clearErrors() {
+    emailGroupLogin.classList.remove('error');
+    passwordGroupLogin.classList.remove('error');
+}
+
+function showError(element, message) {
+    element.classList.add('error');
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = message;
+    element.appendChild(errorMessage);
+}
 
 function loginAccount() {
     const email = emailLogin.value.trim();
@@ -39,8 +51,28 @@ function loginAccount() {
         return;
     }
 
-    window.location.href = "../Pages/dashboard.html";
+    localStorage.setItem("userLoggedIn", JSON.stringify({
+        email: email,
+        role: foundUser.role // lưu vai trò của người dùng
+    }));
+
+    if (foundUser.role === 'admin') {
+        window.location.href = "category-manager.html";  
+    } else {
+        window.location.href = "dashboard.html"; 
+    }
 }
+
+window.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem("userLoggedIn")) {
+        const loggedInUser = JSON.parse(localStorage.getItem("userLoggedIn"));
+        if (loggedInUser.role === 'admin') {
+            window.location.href = "category-manager.html";
+        } else {
+            window.location.href = "dashboard.html"; 
+        }
+    }
+});
 
 loginButton.addEventListener("click", (e) => {
     e.preventDefault();

@@ -4,93 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/product-manager.css">
+    <link rel="stylesheet" href="../css/product-editor.css">
     <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <title>Quản lý bài test</title>
+    <title>Thêm bài test</title>
 </head>
 
 <body>
     <div class="header">
         <div class="headerLogo">QuizzForge</div>
         <div class="headerNavbar">
-            <a href="category-manager.html">Danh mục</a>
+            <a href="product-manager.html">Danh mục</a>
             <a href="dashboard.html">Trang chủ</a>
-            <a href="login.html">Đăng xuất</a>
+            <a  id="logoutLink">Đăng xuất</a>
         </div>
     </div>
 
     <div class="containerProductManager">
         <div class="ProductManager">
             <h2>Tạo bài test</h2>
-            <div class="funtion-bar">
+            <p>Tên bài test</p>
+            <div>
+                <input id="nameProduct" name="nameTest" placeholder="Tên bài test">
+            </div>
+            <div class="selectionBar">
                 <div>
-                    <button id="addProduct" class="btn btn-success mb-3">Thêm bài test</button>
+                    <p>Danh mục</p>
+                    <select id="categoriesList">
+
+                    </select>
                 </div>
                 <div>
-                    <select id="sortProduct">
-                        <option>Sắp xếp theo tên</option>
-                        <option>Sắp xếp theo danh mục</option>
-                    </select>
-                    <input id="searchProductByName" name="searchProductByName" placeholder="Tìm kiếm theo tên">
+                    <p>Thời gian (phút)</p>
+                    <input id="timeProduct" placeholder="Nhập thời gian làm bài">
                 </div>
             </div>
-
-            <table id="tableProduct" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên bài test</th>
-                        <th>Danh mục</th>
-                        <th>Câu hỏi</th>
-                        <th>Thời gian</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="productsList">
-
-                </tbody>
-            </table>
+            <h2>Quản lí câu hỏi</h2>
+            <div class="funtionBar">
+                <div>
+                    <button id="addQuestion">Thêm câu hỏi</button>
+                </div>
+                <div>
+                    <button id="saveBtn">Lưu</button>
+                </div>
+            </div>
         </div>
+
+        <table id="tableQuestion" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Câu hỏi</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="questionList">
+
+            </tbody>
+        </table>
+    </div>
     </div>
 
-    <div class="modal fade" id="modalProduct" tabindex="-1">
+    <div class="modal fade" id="modalQuestion" tabindex="-1" aria-labelledby="modalQuestionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thêm/Sửa bài test</h5>
+                    <h5 class="modal-title" id="modalQuestionLabel">Thêm/Sửa câu hỏi</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label for="nameProduct">Tên bài test</label>
-                        <input id="nameProduct" type="text" class="form-control">
+                    <div>
+                        <h4>Câu hỏi</h4>
+                        <input id="question" name="question" placeholder="Nhập câu hỏi" class="form-control mb-3">
                     </div>
-                    <div class="mb-2">
-                        <label for="categoryProduct">Danh mục</label><br>
-                        <select id="categoriesList">
-
-                        </select>
+                    <h4>Câu trả lời</h4>
+                    <div id="answersContainer">
+                        
                     </div>
-                    <div class="mb-2">
-                        <label for="questionProduct">Số câu hỏi</label>
-                        <input id="questionProduct" type="number" min="1" class="form-control">
-                    </div>
-                    <div class="mb-2">
-                        <label for="timeProduct">Thời gian (phút)</label>
-                        <input id="timeProduct" type="number" min="1" class="form-control">
-                    </div>
+                    <button id="addAnswer" class="btn btn-primary">Thêm câu trả lời</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="saveBtn">Lưu</button>
+                    <button type="button" class="btn btn-primary" id="saveQuestionBtn">Lưu</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal" tabindex="-1" id="modalConfirmProduct">
+    
+    <div class="modal" tabindex="-1" id="modalConfirmQuestion">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -115,7 +118,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
-    <script src="../JS/product-manager.js"></script>
+    <script src="../JS/product-editor.js"></script>
 </body>
 
 </html>

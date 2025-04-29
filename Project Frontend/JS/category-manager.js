@@ -34,6 +34,28 @@ if (addCategoryBtn) {
             return;
         }
 
+        if (nameCategory.value.trim().length < 5) {
+            nameCategory.classList.add("input-error");
+            const error = document.createElement("div");
+            error.className = "error-message w-100 mt-2";
+            error.textContent = "Tên danh mục phải có ít nhất 5 ký tự.";
+            nameCategory.parentNode.appendChild(error);
+            return;
+        }
+
+        const isDuplicate = categoryList.some(category => 
+            category.name.trim().toLowerCase() === nameCategory.value.trim().toLowerCase()
+        );
+
+        if (isDuplicate && currentAction === "add" || isDuplicate && currentAction === "edit" ) {
+            nameCategory.classList.add("input-error");
+            const error = document.createElement("div");
+            error.className = "error-message w-100 mt-2";
+            error.textContent = "Tên danh mục đã tồn tại.";
+            nameCategory.parentNode.appendChild(error);
+            return;
+        }
+
         if (currentAction === "add") {
             confirmMessage.textContent = `Bạn có chắc chắn muốn thêm danh mục ${emoji.value} ${nameCategory.value} không?`;
         } else if (currentAction === "edit") {
