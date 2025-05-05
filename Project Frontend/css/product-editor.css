@@ -54,7 +54,7 @@
 .selectionBar {
     margin-top: 10px;
     margin-bottom: 20px;
-    width: 30%;
+    width: 50%;
     display: flex;
     justify-content: space-between;
 }
@@ -118,9 +118,14 @@
 }
 .error-message {
     display: block;
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
+    color: #dc3545; 
+    font-size: 0.875rem; 
+    font-weight: bold;  
+}
+
+.is-invalid {
+    border-color: #dc3545; 
+    background-color: #f8d7da; 
 }
 
 #tableQuestion {

@@ -34,20 +34,20 @@ if (addCategoryBtn) {
             return;
         }
 
-        if (nameCategory.value.trim().length < 5) {
+        if (nameCategory.value.trim().length < 4) {
             nameCategory.classList.add("input-error");
             const error = document.createElement("div");
             error.className = "error-message w-100 mt-2";
-            error.textContent = "Tên danh mục phải có ít nhất 5 ký tự.";
+            error.textContent = "Tên danh mục phải có ít nhất 4 ký tự.";
             nameCategory.parentNode.appendChild(error);
             return;
         }
 
-        const isDuplicate = categoryList.some(category => 
+        const isDuplicate = categoryList.some(category =>
             category.name.trim().toLowerCase() === nameCategory.value.trim().toLowerCase()
         );
 
-        if (isDuplicate && currentAction === "add" || isDuplicate && currentAction === "edit" ) {
+        if (isDuplicate && currentAction === "add" || isDuplicate && currentAction === "edit") {
             nameCategory.classList.add("input-error");
             const error = document.createElement("div");
             error.className = "error-message w-100 mt-2";
@@ -162,3 +162,37 @@ function validateInput(input, message) {
 }
 
 renderCategoryList();
+document.addEventListener("DOMContentLoaded", function () {
+    const userLoggedIn = localStorage.getItem("userLoggedIn");
+
+    // Nếu không có người dùng đăng nhập, chuyển hướng về trang login
+    if (!userLoggedIn) {
+        window.location.href = "login.html"; // Chuyển hướng đến trang login
+    }
+});
+
+(function () {
+    const defaultCategories = [
+        { id: 1, name: "Toán học", emoji: "🧮" },
+        { id: 2, name: "Văn học", emoji: "📚" },
+        { id: 3, name: "Lịch sử", emoji: "🏛️" },
+        { id: 4, name: "Địa lý", emoji: "🌍" },
+        { id: 5, name: "Tiếng Anh", emoji: "🗣️" }
+    ];
+
+    const existing = JSON.parse(localStorage.getItem("categories")) || [];
+
+    if (existing.length === 0) {
+        localStorage.setItem("categories", JSON.stringify(defaultCategories));
+    }
+})();
+
+function logout() {
+    localStorage.removeItem("userLoggedIn");
+    window.location.href = "login.html";
+}
+
+document.getElementById("logoutLink").addEventListener("click", function (e) {
+    e.preventDefault(); // Ngăn hành động mặc định của thẻ <a>
+    logout();
+});

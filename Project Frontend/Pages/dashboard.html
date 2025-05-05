@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
-    <title>Document</title>
+    <title>QuizzForge - Dashboard</title>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -18,25 +20,30 @@
             <div class="headerNavbar">
                 <a href="category-manager.html">Danh mục</a>
                 <a href="product-manager.html">Bài test</a>
-                <a  id="logoutLink">Đăng xuất</a>
+                <a id="logoutLink">Đăng xuất</a>
             </div>
         </div>
         <div class="randomQuizz">
-            <p>Hãy thử 1 câu đố ngẫu nhiên <i class="fa-solid fa-dice"></i></p> 
+            <p>Hãy thử 1 câu đố ngẫu nhiên <i class="fa-solid fa-dice"></i></p>
             <button id="playGame">Play</button>
         </div>
         <div class="quizzSection">
             <p>Các câu đố nổi bật <i class="fa-solid fa-stars"></i></p>
-            <div class="quizSectionFilter">
-                <span>Sắp xếp theo:</span>
-                <button class="filterButton">Lượt chơi tăng dần</button>
-                <button class="filterButton">Lượt chơi giảm dần</button>
+            <div class="quizzSectionContent">
+                <div class="quizSectionFilter">
+                    <span>Sắp xếp theo:</span>
+                    <button class="filterButton">Lượt chơi tăng dần</button>
+                    <button class="filterButton">Lượt chơi giảm dần</button>
+                </div>
                 <table>
                     <tbody id="quizzShow">
 
                     </tbody>
                 </table>
-              </div>
+            </div>
+            <div id="pagination">
+
+            </div>
         </div>
     </div>
     <footer class="footer">
@@ -44,4 +51,5 @@
     </footer>
     <script src="../JS/dashboard.js"></script>
 </body>
+
 </html>

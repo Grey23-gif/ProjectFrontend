@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/take-quiz.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+    <title>Làm Bài Test</title>
+</head>
+
+<body>
+    <div class="container play-quiz-container">
+        <div class="header">
+            <div class="headerLogo">QuizzForge</div>
+            <div class="headerSearch">
+            </div>
+            <div class="headerNavbar">
+                <a href="dashboard.html">Trang chủ</a> <a id="logoutLink">Đăng xuất</a>
+            </div>
+        </div>
+
+        <div class="quiz-main-area">
+            <div class="quiz-navigation">
+                <h4>Điều hướng nhanh</h4>
+                <div class="nav-grid" id="questionNavGrid">
+                </div>
+                <p class="nav-note">Lưu ý: Đây là danh sách câu hỏi bạn có thể sử dụng để điều hướng.</p>
+            </div>
+
+            <div class="quiz-content-area">
+                <div class="quiz-header-info">
+                    <h2 id="quizTitle">Tên Bài Test</h2>
+                    <div class="time-info">
+                        <p>Thời gian: <span id="totalTime">--</span> phút</p>
+                        <p>Còn lại: <span id="timeLeft">--:--</span></p>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <h3 id="questionCounter">Câu hỏi -- trên --</h3>
+                    <p id="questionText">Nội dung câu hỏi sẽ hiển thị ở đây...</p>
+
+                    <div class="answers-container" id="answersContainer">
+                    </div>
+                </div>
+
+                <div class="quiz-controls">
+                    <button id="finishButton" class="quiz-button finish">Hoàn thành</button>
+                    <div>
+                        <button id="prevButton" class="quiz-button prev">« Trước</button>
+                        <button id="nextButton" class="quiz-button next">Tiếp »</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 QuizzForge. All rights reserved.</p>
+    </footer>
+
+    <script src="../JS/play-quiz.js"></script>
+</body>
+
+</html>

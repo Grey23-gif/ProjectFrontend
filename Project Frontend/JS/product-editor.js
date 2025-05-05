@@ -1,14 +1,14 @@
-const questionList = JSON.parse(localStorage.getItem("questions")) || [];
-const productList = JSON.parse(localStorage.getItem("products")) || [];
-const categoryList = JSON.parse(localStorage.getItem("categories")) || [];
+let productList = JSON.parse(localStorage.getItem("products")) || [];
+let categoryList = JSON.parse(localStorage.getItem("categories")) || [];
+let questionList = [];
 
-const saveQuestionBtn = document.querySelector("#saveQuestionBtn");
 const saveProductBtn = document.querySelector("#saveBtn");
 const nameProduct = document.querySelector("#nameProduct");
 const categoryProduct = document.querySelector("#categoriesList");
 const timeProduct = document.querySelector("#timeProduct");
 const addQuestionBtn = document.querySelector("#addQuestion");
 const tableQuestion = document.querySelector("#questionList");
+const attemptsProduct = document.querySelector("#attemptsProduct");
 
 const modalElement = document.querySelector("#modalQuestion");
 const modal = modalElement ? new bootstrap.Modal(modalElement) : null;
@@ -20,7 +20,10 @@ const confirmBtn = document.querySelector("#confirmBtn");
 let currentAction = null;
 let currentEditingQuestionId = null;
 
-// Hàm hiển thị danh mục
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get("id") ? parseInt(urlParams.get("id")) : null;
+const product = productId ? productList.find(p => p.id === productId) : null;
+
 function populateCategoriesList() {
     categoryProduct.innerHTML = '<option value="">Chọn danh mục</option>';
     categoryList.forEach(category => {
@@ -31,48 +34,80 @@ function populateCategoriesList() {
     });
 }
 
-// Lưu bài test
+function initializeForm() {
+    populateCategoriesList();
+    if (product) {
+        nameProduct.value = product.name;
+        categoryProduct.value = product.categoryId;
+        timeProduct.value = product.time;
+        questionList = product.questions ? [...product.questions] : [];
+    } else {
+        questionList = [];
+    }
+    renderQuestionList();
+}
+
 saveProductBtn.addEventListener("click", () => {
+    clearErrors();
+    // Kiểm tra hợp lệ dữ liệu đầu vào
     if (!validateInput(nameProduct, "Vui lòng nhập tên bài test") ||
         !validateInput(categoryProduct, "Vui lòng chọn danh mục") ||
-        !validateInput(timeProduct, "Vui lòng nhập thời gian làm bài")) {
+        !validateInput(timeProduct, "Vui lòng nhập thời gian làm bài") ||
+        !validateNumberInput(timeProduct, "Vui lòng nhập lại thời gian làm bài") ||
+        !validateInput(attemptsProduct, "Vui lòng nhập số lần làm bài") ||
+        !validateNumberInput(attemptsProduct, "Vui lòng nhập lại số lần làm bài")) {
         return;
     }
-    if (!validateNumberInput(timeProduct, "Vui lòng nhập lại thời gian làm bài")) {
-        return;
-    }
+
     if (questionList.length === 0) {
-        alert("Bài test phải có ít nhất 1 câu hỏi!");
+        showError(addQuestionBtn, "Bài test phải có ít nhất 1 câu hỏi!");
         return;
     }
 
     const time = parseInt(timeProduct.value);
+    const attempts = parseInt(attemptsProduct.value); // Số lần làm bài
     const selectedCategory = categoryList.find(c => c.id === parseInt(categoryProduct.value));
-    const newProduct = {
-        id: productList.length > 0 ? Math.max(...productList.map(p => p.id)) + 1 : 1,
-        name: nameProduct.value,
-        categoryId: parseInt(categoryProduct.value),
-        categoryText: selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.name}` : "",
-        time,
-        questions: [...questionList]
-    };
+    const categoryText = selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.name}` : "";
 
-    productList.push(newProduct);
+    // Nếu đang sửa sản phẩm
+    if (product) {
+        const index = productList.findIndex(p => p.id === product.id);
+        if (index !== -1) {
+            productList[index] = {
+                ...productList[index],
+                name: nameProduct.value.trim(),
+                categoryId: parseInt(categoryProduct.value),
+                categoryText: categoryText,
+                time,
+                attempts, // Lưu số lần làm bài
+                questions: [...questionList]
+            };
+        }
+    } else {
+        // Thêm mới sản phẩm
+        const newProduct = {
+            id: productList.length > 0 ? Math.max(...productList.map(p => p.id)) + 1 : 1,
+            name: nameProduct.value.trim(),
+            categoryId: parseInt(categoryProduct.value),
+            categoryText: categoryText,
+            time,
+            attempts, // Lưu số lần làm bài
+            questions: [...questionList]
+        };
+        productList.push(newProduct);
+    }
+
+    // Lưu vào localStorage
     localStorage.setItem("products", JSON.stringify(productList));
-    questionList.length = 0;
-    localStorage.setItem("questions", JSON.stringify(questionList));
-
-    nameProduct.value = "";
-    categoryProduct.value = "";
-    timeProduct.value = "";
-    renderQuestionList();
+    window.location.href = "product-manager.html";
 });
 
-// Thêm câu hỏi
+
 addQuestionBtn.addEventListener("click", () => {
     clearErrors();
     currentAction = "add";
     currentEditingQuestionId = null;
+    document.querySelector("#question").value = "";
     resetAnswers();
 
     const answersContainer = document.querySelector("#answersContainer");
@@ -80,46 +115,47 @@ addQuestionBtn.addEventListener("click", () => {
         const answerRow = createAnswerRow("", false);
         answersContainer.appendChild(answerRow);
     }
-    modal.show();
+    if (modal) modal.show();
 });
 
-// Thêm câu trả lời
-document.querySelector("#addAnswer").addEventListener("click", () => {
+document.querySelector("#addAnswer")?.addEventListener("click", () => {
     const answersContainer = document.querySelector("#answersContainer");
     const answerRow = createAnswerRow("", false);
     answersContainer.appendChild(answerRow);
 });
 
-// Lưu câu hỏi
 saveQuestionBtn.addEventListener("click", () => {
     const questionInput = document.querySelector("#question");
-    const answerInputs = document
-        .querySelector("#answersContainer")
-        .querySelectorAll("input[type='text']");
-    const checkboxes = document.querySelectorAll(".form-check-input");
+    const answersContainer = document.querySelector("#answersContainer");
+    const answerInputs = answersContainer.querySelectorAll("input[type='text']");
+    const checkboxes = answersContainer.querySelectorAll(".form-check-input");
 
     clearErrors();
 
+    let isValid = true;
     if (!validateInput(questionInput, "Vui lòng nhập câu hỏi")) {
-        return;
+        isValid = false;
     }
-    for (let input of answerInputs) {
+    answerInputs.forEach(input => {
         if (!validateInput(input, "Vui lòng nhập câu trả lời")) {
-            return;
+            isValid = false;
         }
-    }
+    });
+
     if (answerInputs.length < 2) {
-        showError(saveQuestionBtn, "Phải có ít nhất 2 câu trả lời.");
-        return;
+        showError(document.querySelector("#addAnswer"), "Phải có ít nhất 2 câu trả lời."); 
+        isValid = false;
     }
     const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
     if (!atLeastOneChecked) {
         showError(saveQuestionBtn, "Phải có ít nhất một câu trả lời đúng.");
-        return;
+        isValid = false;
     }
 
+    if (!isValid) return; 
+
     const answers = Array.from(answerInputs).map((input, index) => ({
-        text: input.value,
+        text: input.value.trim(),
         isCorrect: checkboxes[index].checked
     }));
 
@@ -138,62 +174,67 @@ saveQuestionBtn.addEventListener("click", () => {
         }
     }
 
-    localStorage.setItem("questions", JSON.stringify(questionList));
     renderQuestionList();
-    modal.hide();
+    if (modal) modal.hide();
 });
 
-// Hiển thị danh sách câu hỏi
+confirmBtn.addEventListener("click", () => {
+    if (currentAction === "delete" && currentEditingQuestionId !== null) {
+        const index = questionList.findIndex(q => q.id === currentEditingQuestionId);
+        if (index !== -1) {
+            questionList.splice(index, 1);
+            renderQuestionList();
+        }
+        if (modalConfirm) modalConfirm.hide();
+    }
+});
+
 function renderQuestionList() {
-    tableQuestion.innerHTML = "";
-    questionList.forEach(question => {
+    if (!tableQuestion) return;
+    tableQuestion.innerHTML = ""; 
+    questionList.forEach((question, index) => { 
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
-            <td>${question.id}</td>
+            <td>${index + 1}</td>
             <td>${question.questionText}</td>
             <td>
-                <button class="edit btn btn-primary btn-sm">Sửa</button>
-                <button class="delete btn btn-danger btn-sm">Xóa</button>
+                <button class="edit btn btn-primary btn-sm" data-id="${question.id}">Sửa</button>
+                <button class="delete btn btn-danger btn-sm" data-id="${question.id}" data-text="${question.questionText}">Xóa</button>
             </td>
         `;
         tableQuestion.appendChild(newRow);
+    });
+}
 
-        newRow.querySelector(".edit").addEventListener("click", () => {
+tableQuestion?.addEventListener('click', (event) => {
+    const target = event.target;
+    const questionId = parseInt(target.getAttribute('data-id'));
+
+    if (target.classList.contains('edit')) {
+        const question = questionList.find(q => q.id === questionId);
+        if (question) {
             clearErrors();
             currentAction = "edit";
             currentEditingQuestionId = question.id;
             document.querySelector("#question").value = question.questionText;
             resetAnswers();
             populateAnswers(question.answers);
-            modal.show();
-        });
-
-        newRow.querySelector(".delete").addEventListener("click", () => {
-            currentAction = "delete";
-            currentEditingQuestionId = question.id;
-            confirmMessage.textContent = `Bạn có chắc chắn muốn xóa câu hỏi "${question.questionText}" không?`;
-            modalConfirm.show();
-        });
-    });
-}
-
-// Xác nhận xóa câu hỏi
-confirmBtn.addEventListener("click", () => {
-    if (currentAction === "delete" && currentEditingQuestionId !== null) {
-        const index = questionList.findIndex(q => q.id === currentEditingQuestionId);
-        if (index !== -1) {
-            questionList.splice(index, 1);
-            localStorage.setItem("questions", JSON.stringify(questionList));
-            renderQuestionList();
+            if (modal) modal.show();
         }
-        modalConfirm.hide();
+    } else if (target.classList.contains('delete')) {
+         const questionText = target.getAttribute('data-text');
+         if (questionId) {
+            currentAction = "delete";
+            currentEditingQuestionId = questionId;
+            confirmMessage.textContent = `Bạn có chắc chắn muốn xóa câu hỏi "${questionText}" không?`;
+            if (modalConfirm) modalConfirm.show();
+         }
     }
 });
 
-// Tạo dòng trả lời
 function createAnswerRow(text = "", correct = false) {
     const row = document.createElement("div");
-    row.className = "input-group mb-2";
+    row.className = "input-group mb-2 answer-row";
     row.innerHTML = `
         <div class="input-group-text">
             <input type="checkbox" class="form-check-input mt-0" ${correct ? "checked" : ""}>
@@ -201,26 +242,31 @@ function createAnswerRow(text = "", correct = false) {
         <input type="text" class="form-control" placeholder="Nhập câu trả lời" value="${text}">
         <button type="button" class="btn btn-danger delete-answer"><i class="fa-solid fa-trash"></i></button>
     `;
-    row.querySelector(".delete-answer").addEventListener("click", () => row.remove());
+    row.querySelector(".delete-answer").addEventListener("click", (e) => {
+        e.stopPropagation();
+        row.remove();
+    });
     return row;
 }
 
 function resetAnswers() {
-    document.querySelector("#answersContainer").innerHTML = "";
+    const container = document.querySelector("#answersContainer");
+    if (container) container.innerHTML = "";
 }
 
 function populateAnswers(answers) {
     const answersContainer = document.querySelector("#answersContainer");
+    if (!answersContainer) return;
+    resetAnswers();
     answers.forEach(answer => {
         const answerRow = createAnswerRow(answer.text, answer.isCorrect);
         answersContainer.appendChild(answerRow);
     });
 }
 
-// Validate
 function validateInput(input, message) {
-    input.classList.remove("input-error");
-    input.parentNode.querySelector(".error-message")?.remove();
+    if (!input) return false;
+    clearErrorForInput(input);
     if (!input.value.trim()) {
         showError(input, message);
         return false;
@@ -229,6 +275,8 @@ function validateInput(input, message) {
 }
 
 function validateNumberInput(input, message) {
+    if (!input) return false;
+    clearErrorForInput(input);
     const value = parseInt(input.value);
     if (isNaN(value) || value <= 0) {
         showError(input, message);
@@ -237,31 +285,42 @@ function validateNumberInput(input, message) {
     return true;
 }
 
-function showError(input, message) {
-    input.classList.add("input-error");
+function showError(element, message) {
+    element.classList.add("input-error");
+
     const error = document.createElement("div");
     error.className = "error-message w-100 mt-2";
     error.textContent = message;
-    input.parentNode.appendChild(error);
+
+    const existingError = element.parentNode.querySelector(".error-message");
+    if (existingError) {
+        existingError.remove();
+    }
+
+    element.parentNode.appendChild(error);
+
+    element.classList.add("is-invalid");
+}
+
+function clearErrorForInput(input) {
+     if (!input) return;
+    const parent = input.closest('.input-group') || input.parentNode;
+    const error = parent.parentNode.querySelector(".error-message");
+    if (error) {
+        error.remove();
+    }
+     input.classList.remove("is-invalid");
 }
 
 function clearErrors() {
-    document.querySelectorAll(".error-message").forEach(el => el.remove());
+    const errorMessages = document.querySelectorAll(".error-message");
+    errorMessages.forEach(errorMessage => errorMessage.remove());
+
+    const invalidFields = document.querySelectorAll(".is-invalid");
+    invalidFields.forEach(field => {
+        field.classList.remove("is-invalid");
+    });
 }
 
-// Nếu chỉnh sửa bài test
-const productId = new URLSearchParams(window.location.search).get('id');
-const product = productList.find(p => p.id === parseInt(productId));
 
-if (product) {
-    nameProduct.value = product.name;
-    categoryProduct.value = product.categoryId;
-    timeProduct.value = product.time;
-
-    questionList.length = 0;
-    product.questions.forEach(q => questionList.push(q));
-    renderQuestionList();
-}
-
-// Load danh mục ban đầu
-populateCategoriesList();
+initializeForm();

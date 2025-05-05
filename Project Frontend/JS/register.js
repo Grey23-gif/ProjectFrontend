@@ -27,6 +27,8 @@ function registerAccount() {
         hasError = true;
     }
 
+    
+
     if (!password) {
         showError(passwordGroup, "Vui lòng nhập mật khẩu.");
         hasError = true;
@@ -56,25 +58,28 @@ function registerAccount() {
 
     // Xử lý đăng ký
     const users = JSON.parse(localStorage.getItem("users")) || [];
-
     if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
         showError(emailGroup, "Email đã tồn tại.");
         return;
     }
-
+    
     const newUser = {nameUser, email, password, role: "user"};
-    users.push({
-        nameUser: "Thanh Thanh",
-        email: "thanhthanh123@gmail.com",
-        password: "1234568",
-        role: "admin"
-    });
     users.push(newUser);
     
     localStorage.setItem("users", JSON.stringify(users));
 
     window.location.href = "login.html"; 
 }
+
+(function() {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const admin = { nameUser: "Thanh Thanh", email: "thanhthanh123@gmail.com", password: "12345678", role: "admin" };
+
+    if (!users.some(user => user.email.toLowerCase() === admin.email.toLowerCase())) {
+        users.push(admin);
+        localStorage.setItem("users", JSON.stringify(users));
+    }
+})();
 
 registerButton.addEventListener("click", (e) => {
     e.preventDefault();
