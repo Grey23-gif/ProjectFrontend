@@ -32,7 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const userLoggedIn = JSON.parse(localStorage.getItem("userLoggedIn"));
     if (!userLoggedIn) {
         showError("Vui lòng đăng nhập để làm bài test!");
-        window.location.href = "login.html";
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 2000); // chờ 2 giây
         return;
     }
 
@@ -43,17 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Kiểm tra dữ liệu bài test
     if (!quizData || !quizData.questions || quizData.questions.length === 0) {
         showError("Không tìm thấy bài test hoặc bài test không có câu hỏi!");
-        window.location.href = "dashboard.html";
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 2000); // chờ 2 giây
         return;
     }
 
     // Kiểm tra số lần làm bài
     const userAttemptsKey = `attempts_${quizId}_${userLoggedIn.email}`;
     let userAttempts = parseInt(localStorage.getItem(userAttemptsKey)) || 0;
-    const maxAttempts = quizData.attempts || 3; // Mặc định 3 lần nếu không có
+    const maxAttempts = quizData.attempts;
     if (userAttempts >= maxAttempts) {
         showError(`Bạn đã hết số lần làm bài test này (${maxAttempts} lần)!`);
-        window.location.href = "dashboard.html";
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 2000); // chờ 2 giây
         return;
     }
 
@@ -70,13 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Khởi tạo giao diện bài test
     function initializeQuiz() {
-        if (quizTitle) quizTitle.textContent = quizData.name || "Bài Test Không Tên";
-        if (totalTime) totalTime.textContent = quizData.time || "30";
+        if (quizTitle) quizTitle.textContent = quizData.name;
+        if (totalTime) totalTime.textContent = quizData.time;
         userAnswers = Array(quizData.questions.length).fill(null);
 
         renderQuestion();
         renderNavigation();
-        startTimer((quizData.time || 30) * 60); // Mặc định 30 phút
+        startTimer((quizData.time) * 60);
     }
 
     // Hiển thị câu hỏi hiện tại
@@ -315,6 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Xử lý nút "Làm lại"
     if (retryButton) {
         retryButton.addEventListener("click", () => {
+            userAttempts++;
             const modal = bootstrap.Modal.getInstance(modalNotificationScore);
             if (modal) modal.hide();
             window.location.reload();

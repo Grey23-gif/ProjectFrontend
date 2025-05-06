@@ -1,4 +1,5 @@
-let productList = JSON.parse(localStorage.getItem("products")) || [];
+document.addEventListener("DOMContentLoaded", function () {
+    let productList = JSON.parse(localStorage.getItem("products")) || [];
 let categoryList = JSON.parse(localStorage.getItem("categories")) || [];
 let questionList = [];
 
@@ -324,3 +325,26 @@ function clearErrors() {
 
 
 initializeForm();
+});
+
+// Xử lý đăng nhập
+document.addEventListener("DOMContentLoaded", function () {
+    const userLoggedIn = localStorage.getItem("userLoggedIn");
+
+    if (!userLoggedIn) {
+        window.location.href = "login.html";
+    }
+});
+
+// Xử lý đăng xuất
+function logout() {
+    localStorage.removeItem("userLoggedIn");
+    window.location.href = "login.html";
+}
+
+if (document.getElementById("logoutLink")) {
+    document.getElementById("logoutLink").addEventListener("click", function (e) {
+        e.preventDefault();
+        logout();
+    });
+}
