@@ -18,8 +18,7 @@
                 <input id="searchTest" name="searchTest" placeholder="Tìm kiếm bài test">
             </div>
             <div class="headerNavbar">
-                <a href="category-manager.html">Danh mục</a>
-                <a href="product-manager.html">Bài test</a>
+                <a href="dashboard.html">Trang chủ</a>
                 <a id="logoutLink">Đăng xuất</a>
             </div>
         </div>
@@ -49,6 +48,20 @@
     <footer class="footer">
         <p>© 2025 QuizzForge. All rights reserved.</p>
     </footer>
+    
+    <div class="modal" tabindex="-1" id="modalNotification">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="notification-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../JS/dashboard.js"></script>
 </body>
 

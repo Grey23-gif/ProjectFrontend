@@ -30,6 +30,11 @@
     font-size: 14px;
     margin-right: 5px;
 }
+
+.categoryManager h2 {
+    margin-bottom: 40px;
+}
+
 .containerCategoryManager {
     padding: 100px;
     margin-left: 100px;
@@ -132,4 +137,28 @@ button.delete {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+}
+
+#pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-button:hover {
+    background-color: #ddd;
 }
