@@ -69,8 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
             notificationMessage.textContent = message;
             const modal = new bootstrap.Modal(modalNotification);
             modal.show();
-        } else {
-            alert(message);
         }
     }
 

@@ -70,6 +70,12 @@ saveProductBtn.addEventListener("click", () => {
     const selectedCategory = categoryList.find(c => c.id === parseInt(categoryProduct.value));
     const categoryText = selectedCategory ? `${selectedCategory.emoji} ${selectedCategory.name}` : "";
 
+    const isNameDuplicate = productList.some(p => p.name.trim().toLowerCase() === nameProduct.value.trim().toLowerCase());
+    if (isNameDuplicate && (!product || product.name.trim().toLowerCase() !== nameProduct.value.trim().toLowerCase())) {
+        showError(nameProduct, "Tên bài test đã tồn tại!");
+        return;
+    }
+
     // Nếu đang sửa sản phẩm
     if (product) {
         const index = productList.findIndex(p => p.id === product.id);
