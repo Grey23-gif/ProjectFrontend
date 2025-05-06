@@ -1,4 +1,4 @@
-.container{
+.container {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -7,10 +7,12 @@
     background-size: cover;
     background-position: center;
 }
+
 .containerForm {
     width: 100%;
     max-width: 440px;
 }
+
 .title {
     text-align: center;
     color: white;
@@ -32,7 +34,8 @@
     margin-bottom: 15px;
     position: relative;
 }
-.inputBox label{
+
+.inputBox label {
     font-weight: 700;
     color: white;
 }
@@ -47,7 +50,8 @@
     background: transparent;
     color: white;
 }
-.inputBox i{
+
+.inputBox i {
     position: absolute;
     right: 5%;
     transform: translateY(130%);
@@ -68,7 +72,7 @@
     margin: auto;
     text-align: center;
     margin-bottom: 20px;
-    
+
 }
 
 .btnSubmit button {
@@ -83,7 +87,8 @@
     cursor: pointer;
     transition: all 0.6s ease;
 }
-.btnSubmit :hover{
+
+.btnSubmit :hover {
     transform: scale(1.1);
 }
 

@@ -57,19 +57,19 @@ function loginAccount() {
     }));
 
     if (foundUser.role === 'admin') {
-        window.location.href = "category-manager.html";  
+        window.location.href = "category-manager.html";
     } else {
-        window.location.href = "dashboard.html"; 
+        window.location.href = "dashboard.html";
     }
 }
 
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem("userLoggedIn")) {
         const loggedInUser = JSON.parse(localStorage.getItem("userLoggedIn"));
         if (loggedInUser.role === 'admin') {
             window.location.href = "category-manager.html";
         } else {
-            window.location.href = "dashboard.html"; 
+            window.location.href = "dashboard.html";
         }
     }
 });
@@ -78,3 +78,14 @@ loginButton.addEventListener("click", (e) => {
     e.preventDefault();
     loginAccount();
 });
+
+function clearErrors() {
+    document.querySelectorAll(".error-message").forEach(el => el.remove());
+}
+
+function showError(container, message) {
+    const error = document.createElement("div");
+    error.className = "error-message";
+    error.innerText = message;
+    container.appendChild(error);
+}

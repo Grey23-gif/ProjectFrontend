@@ -4,12 +4,14 @@
     background-color: black;
     color: white;
 }
+
 .headerLogo {
     font-size: 24px;
     font-weight: bold;
     margin-left: 30px;
     padding: 20px;
 }
+
 .headerNavbar {
     padding: 20px;
     gap: 10px;
@@ -72,7 +74,8 @@
     margin-top: 20px;
 }
 
-#tableCategory th, #tableCategory td {
+#tableCategory th,
+#tableCategory td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -93,21 +96,26 @@
 }
 
 #tableCategory td:nth-child(1) {
-    text-align: center ;
+    text-align: center;
     width: 100px;
 }
+
 #tableCategory th:nth-child(1) {
     text-align: center;
 }
+
 #tableCategory td:nth-child(3) {
     width: 200px;
-    text-align: center ;
+    text-align: center;
     gap: 5px;
 }
+
 #tableCategory th:nth-child(3) {
     text-align: center;
 }
-button.edit, button.delete {
+
+button.edit,
+button.delete {
     padding: 5px 10px;
     margin-right: 5px;
     border: none;

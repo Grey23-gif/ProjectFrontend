@@ -143,7 +143,7 @@ saveQuestionBtn.addEventListener("click", () => {
     });
 
     if (answerInputs.length < 2) {
-        showError(document.querySelector("#addAnswer"), "Phải có ít nhất 2 câu trả lời."); 
+        showError(document.querySelector("#addAnswer"), "Phải có ít nhất 2 câu trả lời.");
         isValid = false;
     }
     const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
@@ -152,7 +152,7 @@ saveQuestionBtn.addEventListener("click", () => {
         isValid = false;
     }
 
-    if (!isValid) return; 
+    if (!isValid) return;
 
     const answers = Array.from(answerInputs).map((input, index) => ({
         text: input.value.trim(),
@@ -191,8 +191,8 @@ confirmBtn.addEventListener("click", () => {
 
 function renderQuestionList() {
     if (!tableQuestion) return;
-    tableQuestion.innerHTML = ""; 
-    questionList.forEach((question, index) => { 
+    tableQuestion.innerHTML = "";
+    questionList.forEach((question, index) => {
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
             <td>${index + 1}</td>
@@ -222,13 +222,13 @@ tableQuestion?.addEventListener('click', (event) => {
             if (modal) modal.show();
         }
     } else if (target.classList.contains('delete')) {
-         const questionText = target.getAttribute('data-text');
-         if (questionId) {
+        const questionText = target.getAttribute('data-text');
+        if (questionId) {
             currentAction = "delete";
             currentEditingQuestionId = questionId;
             confirmMessage.textContent = `Bạn có chắc chắn muốn xóa câu hỏi "${questionText}" không?`;
             if (modalConfirm) modalConfirm.show();
-         }
+        }
     }
 });
 
@@ -303,13 +303,13 @@ function showError(element, message) {
 }
 
 function clearErrorForInput(input) {
-     if (!input) return;
+    if (!input) return;
     const parent = input.closest('.input-group') || input.parentNode;
     const error = parent.parentNode.querySelector(".error-message");
     if (error) {
         error.remove();
     }
-     input.classList.remove("is-invalid");
+    input.classList.remove("is-invalid");
 }
 
 function clearErrors() {

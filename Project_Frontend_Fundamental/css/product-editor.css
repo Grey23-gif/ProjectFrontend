@@ -12,6 +12,7 @@
     margin-left: 30px;
     padding: 20px;
 }
+
 .ProductManager h2 {
     margin-bottom: 40px;
 }
@@ -51,6 +52,7 @@
     border-radius: 10px;
     padding: 10px;
 }
+
 .selectionBar {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -58,21 +60,25 @@
     display: flex;
     justify-content: space-between;
 }
+
 .selectionBar input {
     border-radius: 10px;
     width: 200px;
     padding: 10px;
 }
+
 .selectionBar select {
     border-radius: 10px;
     width: 200px;
     padding: 10px;
 }
+
 .funtionBar {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -83,6 +89,7 @@
     padding: 5px;
     text-align: center;
 }
+
 #tableQuestion th:nth-child(2) {
     width: 500px;
     text-align: center;
@@ -110,22 +117,23 @@
     position: absolute;
     right: 10px;
     top: 50%;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
     color: red;
-    background-color: transparent; 
+    background-color: transparent;
     border: none;
-    transition: opacity 0.3s ease, transform 0.3s ease; 
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .error-message {
     display: block;
-    color: #dc3545; 
-    font-size: 0.875rem; 
-    font-weight: bold;  
+    color: #dc3545;
+    font-size: 0.875rem;
+    font-weight: bold;
 }
 
 .is-invalid {
-    border-color: #dc3545; 
-    background-color: #f8d7da; 
+    border-color: #dc3545;
+    background-color: #f8d7da;
 }
 
 #tableQuestion {
@@ -146,7 +154,8 @@
     text-align: center;
 }
 
-#tableQuestion th, #tableQuestion td {
+#tableQuestion th,
+#tableQuestion td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;

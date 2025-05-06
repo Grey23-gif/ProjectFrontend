@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const logoutLink = document.getElementById("logoutLink");
-    if(logoutLink) {
+    if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
             e.preventDefault();
             logout();
@@ -65,15 +65,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
             `;
-            if(row) row.appendChild(cell);
+            if (row) row.appendChild(cell);
         });
 
         if (row && row.children.length < columns && paginatedTests.length > 0) {
-             const remainingCells = columns - row.children.length;
+            const remainingCells = columns - row.children.length;
             for (let i = 0; i < remainingCells; i++) {
                 const emptyCell = document.createElement('td');
                 emptyCell.classList.add('empty-quiz-cell');
-                 if(row) row.appendChild(emptyCell);
+                if (row) row.appendChild(emptyCell);
             }
         }
 
@@ -116,10 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 endPage = totalPages;
             } else {
                 startPage = page - halfVisible;
-                 endPage = page + halfVisible;
-                 if ((maxVisibleButtons % 2) === 0) {
-                    endPage = page + halfVisible -1;
-                 }
+                endPage = page + halfVisible;
+                if ((maxVisibleButtons % 2) === 0) {
+                    endPage = page + halfVisible - 1;
+                }
             }
         }
 
@@ -136,9 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             btn.addEventListener('click', () => {
-                 if (i !== page) {
+                if (i !== page) {
                     renderTests(currentDisplayedProducts, i);
-                 }
+                }
             });
 
             paginationContainer.appendChild(btn);
@@ -159,10 +159,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-     if(searchInput){
+    if (searchInput) {
         searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase().trim();
-             const filteredProducts = !searchTerm
+            const filteredProducts = !searchTerm
                 ? [...allProducts]
                 : allProducts.filter(product =>
                     product.name.toLowerCase().includes(searchTerm) ||
@@ -172,10 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
             currentDisplayedProducts = filteredProducts;
             renderTests(currentDisplayedProducts, 1);
         });
-     }
+    }
 
 
-    if(quizzShowTbody) {
+    if (quizzShowTbody) {
         quizzShowTbody.addEventListener('click', (event) => {
             if (event.target.classList.contains('play-button')) {
                 const productId = event.target.getAttribute('data-id');
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    if(playGameBtn) {
+    if (playGameBtn) {
         playGameBtn.addEventListener('click', () => {
             if (allProducts.length > 0) {
                 const randomIndex = Math.floor(Math.random() * allProducts.length);

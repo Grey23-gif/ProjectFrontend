@@ -139,12 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Sửa bài test
-    window.editProduct = function(productId) {
+    window.editProduct = function (productId) {
         window.location.href = `product-editor.html?id=${productId}`;
     };
 
     // Xóa bài test
-    window.deleteProduct = function(productId) {
+    window.deleteProduct = function (productId) {
         currentProductIdToDelete = productId;
         if (confirmMessage) confirmMessage.textContent = `Bạn có chắc chắn muốn xóa bài test này?`;
         if (modalConfirm) modalConfirm.show();
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (searchProductInput) {
         searchProductInput.addEventListener("input", () => {
             const searchTerm = searchProductInput.value.toLowerCase();
-            const filteredProducts = productList.filter(product => 
+            const filteredProducts = productList.filter(product =>
                 product.name.toLowerCase().includes(searchTerm)
             );
             currentDisplayedProducts = filteredProducts;
@@ -201,4 +201,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Khởi tạo danh sách
     renderProductList(currentDisplayedProducts, currentPage);
+
 });
+
+// Xử lý đăng nhập
+document.addEventListener("DOMContentLoaded", function () {
+    const userLoggedIn = localStorage.getItem("userLoggedIn");
+
+    if (!userLoggedIn) {
+        window.location.href = "login.html";
+    }
+});
+
+// Xử lý đăng xuất
+function logout() {
+    localStorage.removeItem("userLoggedIn");
+    window.location.href = "login.html";
+}
+
+if (document.getElementById("logoutLink")) {
+    document.getElementById("logoutLink").addEventListener("click", function (e) {
+        e.preventDefault();
+        logout();
+    });
+}

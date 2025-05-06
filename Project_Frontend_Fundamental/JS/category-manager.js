@@ -249,15 +249,6 @@ function validateInput(input, message) {
 
 renderCategoryList();
 
-// Xử lý đăng nhập
-document.addEventListener("DOMContentLoaded", function () {
-    const userLoggedIn = localStorage.getItem("userLoggedIn");
-
-    if (!userLoggedIn) {
-        window.location.href = "login.html";
-    }
-});
-
 // Khởi tạo danh mục mặc định
 (function () {
     const defaultCategories = [
@@ -274,6 +265,15 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("categories", JSON.stringify(defaultCategories));
     }
 })();
+
+// Xử lý đăng nhập
+document.addEventListener("DOMContentLoaded", function () {
+    const userLoggedIn = localStorage.getItem("userLoggedIn");
+
+    if (!userLoggedIn) {
+        window.location.href = "login.html";
+    }
+});
 
 // Xử lý đăng xuất
 function logout() {
